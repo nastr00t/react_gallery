@@ -4,6 +4,9 @@ import axios from 'axios';
 
 export const Characters = () => {
     const [charactersArray, setCharactersArray] = useState([]);
+    const [urlAPI, setUrlAPI] = useState("https://rickandmortyapi.com/api/character/");
+    const [nextPage, setNextPage] = useState(null);
+    const [prevPage, setPrevPage] = useState(null);
 
 
     useEffect(() => {
@@ -13,14 +16,16 @@ export const Characters = () => {
             try {
 
                  // Realizar la petición a la API
-                 axios.get("https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16").then((response) => {
-
+               const response = await axios.get(urlAPI);
+                
                      // Obtener los datos de la petición
-                     const data = response.data;
+                const data = response.data.results;
 
                      // Actualizar la variable de estado con los datos recibidos de la API.
-                     setCharactersArray(data);
-                 });
+                setCharactersArray(data);
+                setNextPage(response.data.info.next);
+                setPrevPage(response.data.info.prev);
+
              } catch (error) {
                  console.error("Error al consultar los datos de la API: ", error);
              }
@@ -28,6 +33,7 @@ export const Characters = () => {
         fetchData();
     }, []); // Array de depencias vacío para que useEffect se ejecute una vez
 
+    console.log("url", nextPage);
     //useEffect(() => {
     //    try {
 
@@ -39,6 +45,13 @@ export const Characters = () => {
     //    }
 
     //}, []);
+    const linkPagePrev = (url) => {
+        setUrlAPI(url);
+    };
+
+    const linkPageNext = (url) => {
+        setUrlAPI(url);
+    };
 
     return (
         <>
@@ -49,6 +62,7 @@ export const Characters = () => {
                 <div className='row d-flex flex-wrap row-cols-1 row-cols-md-2 row-cols-lg-2 py-2'>
                     {charactersArray.map((char) =>
                         <Character 
+                            key={char.id}
                             id={char.id}
                             name={char.name}
                             status={char.status}
@@ -61,6 +75,25 @@ export const Characters = () => {
                     )}
                 </div>
             </div>
+            <nav aria-label="Paginacion Personajes">
+                <ul className="pagination">
+                    {prevPage !== null && (
+                        <li className="page-item">
+                            <a className="page-link" onClick={linkPagePrev(prevPage)} aria-label="Previous">
+                                <span aria-hidden="true">Anterior</span>
+                            </a>
+                        </li>)
+                    }
+                    {nextPage !== null ?? (
+
+                        <li className="page-item">
+                            <a className="page-link" onClick={linkPageNext(nextPage)} aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>)
+                    }
+                </ul>
+            </nav>
         </>
     )
 }
