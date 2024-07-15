@@ -13,9 +13,9 @@ export const Character = ({ id, name, status, species, gender, location, image }
         <div className="col">
           <div className="card-body" >
               <h5 className='card-title '>{id} - {name}</h5>
-            <span className="card-text">Status: {status}</span> <br />
-            <span className="card-text">Species: {species}</span><br />
-            <span className="card-text">Gender: {gender}</span> <br />
+              <span className="card-text">Status: {status}</span> <br />
+              <span className="card-text">Species: {species}</span><br />
+              <span className="card-text">Gender: {gender}</span> <br />
               <span className="card-text"> Location: {location}</span>
             </div>
           </div>
