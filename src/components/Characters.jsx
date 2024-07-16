@@ -9,19 +9,15 @@ export const Characters = () => {
     const [prevPage, setPrevPage] = useState(null);
     const [totalPages, setTotalPages] = useState(null);
 
-
     useEffect(() => {
 
         // Definir un función asíncrona para la petición a la API
         const fetchData = async () => {
             try {
-
                 // Realizar la petición a la API
                 const response = await axios.get(urlAPI);
-
                 // Obtener los datos de la petición
                 const data = response.data.results;
-
                 // Actualizar la variable de estado con los datos recibidos de la API.
                 setCharactersArray(data);
                 setNextPage(response.data.info.next);
@@ -35,16 +31,15 @@ export const Characters = () => {
         fetchData();
     }, [urlAPI]); // Dependencia urlAPI para que useEffect se ejecute cuando cambie
 
-    console.log("url", nextPage);
 
     // Modificación para retornar otra función para que la URL de la API se actualice solo cuando el usuario hace clic en los enlaces de paginación "Anterior" y "Siguiente", en lugar de ejecutarse automáticamente al renderizar el componente.
     const linkPage = (url) => () => {
         setUrlAPI(url);
-    }; 
+    };
 
     let pagesList = [];
     for (let i = 1; i <= totalPages; i++) {
-        const url = `https://rickandmortyapi.com/api/character/?page=${i}`;        
+        const url = `https://rickandmortyapi.com/api/character/?page=${i}`;
         pagesList.push(<li className="page-item"><a className="page-link" onClick={linkPage(url)}>{i}</a></li>)
     }
 
@@ -66,7 +61,6 @@ export const Characters = () => {
                             location={char.location.name}
                             image={char.image}
                         />
-
                     )}
                 </div>
             </div>
@@ -80,9 +74,7 @@ export const Characters = () => {
                         </li>)
                     }
                     {pagesList}
-
                     {nextPage !== null && (
-
                         <li className="page-item">
                             <a className="page-link" onClick={linkPage(nextPage)} href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
