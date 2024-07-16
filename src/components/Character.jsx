@@ -24,7 +24,7 @@ export const Character = ({ id, name, status, species, gender, location, image }
     </div>
   )
 }
-Character.PropTypes = { 
+Character.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
